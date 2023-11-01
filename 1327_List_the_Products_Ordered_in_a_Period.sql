@@ -84,10 +84,14 @@ Products with product_id = 5 is ordered in February a total of (50 + 50) = 100.
 SELECT * FROM Products_28;
 SELECT * FROM Orders_28;
 
-
-
-
-
-
-
-
+  
+SELECT p.product_name, sum(o.unit) as unit
+FROM Products_28 as p
+JOIN Orders_28 as o
+ON p.product_id = o.product_id
+WHERE o.order_date BETWEEN '2020-02-01' AND '2020-02-29'
+#WHERE o.order_date >= '2020-02-01' AND o.order_date <= '2020-02-29'
+GROUP BY o.product_id
+HAVING unit >= 100;
+#o.unit is incorrect in the HAVING clause. It should be unit or SUM(o.unit) since it's an aggregate function result.
+#HAVING o.unit >= 100;
